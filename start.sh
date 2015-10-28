@@ -25,25 +25,25 @@ StartMySQL ()
 CreateMySQLUsers ()
 {
   StartMySQL
-  ADMIN=${EOL_DATABASE_ADMIN_USER}
-  ADMIN_PASS=${EOL_DATABASE_ADMIN_PASSWORD}
-  EOL_USER=${EOL_DATABASE_USER}
-  EOL_USER_PASS=${EOL_DATABASE_PASSWORD}
-  if [ "$EOL_DATABASE_REPLICATION_ROLE" == "slave" ]; then
-    ADMIN=${EOL_SLAVE_ADMIN_USER}
-    ADMIN_PASS=${EOL_SLAVE_ADMIN_PASSWORD}
-    EOL_USER=${EOL_SLAVE_USER}
-    EOL_USER_PASS=${EOL_SLAVE_PASSWORD}
+  ADMIN=${UBIO_DATABASE_ADMIN_USER}
+  ADMIN_PASS=${UBIO_DATABASE_ADMIN_PASSWORD}
+  UBIO_USER=${UBIO_DATABASE_USER}
+  UBIO_USER_PASS=${UBIO_DATABASE_PASSWORD}
+  if [ "$UBIO_DATABASE_REPLICATION_ROLE" == "slave" ]; then
+    ADMIN=${UBIO_SLAVE_ADMIN_USER}
+    ADMIN_PASS=${UBIO_SLAVE_ADMIN_PASSWORD}
+    UBIO_USER=${UBIO_SLAVE_USER}
+    UBIO_USER_PASS=${UBIO_SLAVE_PASSWORD}
   fi
 
   echo "========================================================================" >> ${LOG}
   echo "Creating '${ADMIN}' user ..." >> ${LOG}
   mysql -uroot -e "CREATE USER '${ADMIN}'@'%' IDENTIFIED BY '${ADMIN_PASS}'"
   mysql -uroot -e "GRANT ALL PRIVILEGES ON *.* TO '${ADMIN}'@'%' WITH GRANT OPTION"
-  echo "Creating ${EOL_USER} user ..." >> ${LOG}
-  mysql -uroot -e "CREATE USER '${EOL_USER}'@'%' IDENTIFIED BY '${EOL_USER_PASS}'"
-  mysql -uroot -e "GRANT ALL PRIVILEGES ON eol_production.* TO '${EOL_USER}'@'%' WITH GRANT OPTION"
-  mysql -uroot -e "GRANT ALL PRIVILEGES ON eol_logging_production.* TO '${EOL_USER}'@'%' WITH GRANT OPTION"
+  echo "Creating ${UBIO_USER} user ..." >> ${LOG}
+  mysql -uroot -e "CREATE USER '${UBIO_USER}'@'%' IDENTIFIED BY '${UBIO_USER_PASS}'"
+  mysql -uroot -e "GRANT ALL PRIVILEGES ON eol_production.* TO '${UBIO_USER}'@'%' WITH GRANT OPTION"
+  mysql -uroot -e "GRANT ALL PRIVILEGES ON eol_logging_production.* TO '${UBIO_USER}'@'%' WITH GRANT OPTION"
 
   echo "=> Done!" >> ${LOG}
 
@@ -73,15 +73,15 @@ else
 fi
 
 # Set MySQL REPLICATION - MASTER
-if [ "${EOL_DATABASE_REPLICATION_ROLE}" == "master" ]; then
+if [ "${UBIO_DATABASE_REPLICATION_ROLE}" == "master" ]; then
   echo "========================================================================" >> ${LOG}
   echo "=> Configuring MySQL replication as master ..." >> ${LOG}
   if [ ! -f $VOLUME_HOME/replication_configured ]; then
     echo "=> Starting MySQL ..." >> ${LOG}
     StartMySQL
-    echo "=> Creating a log user ${EOL_REPLICATION_USER}:${EOL_REPLICATION_PASSWORD}"
-    mysql -uroot -e "CREATE USER '${EOL_REPLICATION_USER}'@'%' IDENTIFIED BY '${EOL_REPLICATION_PASSWORD}'"
-    mysql -uroot -e "GRANT REPLICATION SLAVE ON *.* TO '${EOL_REPLICATION_USER}'@'%'"
+    echo "=> Creating a log user ${UBIO_REPLICATION_USER}:${UBIO_REPLICATION_PASSWORD}"
+    mysql -uroot -e "CREATE USER '${UBIO_REPLICATION_USER}'@'%' IDENTIFIED BY '${UBIO_REPLICATION_PASSWORD}'"
+    mysql -uroot -e "GRANT REPLICATION SLAVE ON *.* TO '${UBIO_REPLICATION_USER}'@'%'"
     echo "=> Done!" >> ${LOG}
     mysqladmin -uroot shutdown
     touch $VOLUME_HOME/replication_configured
@@ -92,7 +92,7 @@ if [ "${EOL_DATABASE_REPLICATION_ROLE}" == "master" ]; then
 fi
 
 # Set MySQL REPLICATION - SLAVE
-if [ "${EOL_DATABASE_REPLICATION_ROLE}" == "slave" ]; then
+if [ "${UBIO_DATABASE_REPLICATION_ROLE}" == "slave" ]; then
   echo "========================================================================" >> ${LOG}
   echo "=> Configuring MySQL replication as slave ..." >> ${LOG}
   if [ ! -f $VOLUME_HOME/replication_configured ]; then
@@ -100,7 +100,7 @@ if [ "${EOL_DATABASE_REPLICATION_ROLE}" == "slave" ]; then
     echo "=> Starting MySQL ..." >> ${LOG}
     StartMySQL
     echo "=> Setting master connection info on slave" >> ${LOG}
-    mysql -uroot -e "CHANGE MASTER TO MASTER_HOST='${EOL_DATABASE_HOST}',MASTER_USER='${EOL_REPLICATION_USER}',MASTER_PASSWORD='${EOL_REPLICATION_PASSWORD}',MASTER_PORT=${EOL_DATABASE_PORT}, MASTER_CONNECT_RETRY=30"
+    mysql -uroot -e "CHANGE MASTER TO MASTER_HOST='${UBIO_DATABASE_HOST}',MASTER_USER='${UBIO_REPLICATION_USER}',MASTER_PASSWORD='${UBIO_REPLICATION_PASSWORD}',MASTER_PORT=${UBIO_DATABASE_PORT}, MASTER_CONNECT_RETRY=30"
     echo "=> Done!" >> ${LOG}
     mysqladmin -uroot shutdown
     touch $VOLUME_HOME/replication_configured
