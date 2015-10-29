@@ -18,7 +18,8 @@ VOLUME /var/lib/mysql
 VOLUME /etc/mysql
 EXPOSE 3306
 
-COPY start.sh /start.sh
-COPY stop.sh /stop.sh
+COPY files/start.sh /start.sh
+COPY files/stop.sh /stop.sh
+COPY files/my.cnf /etc/mysql/my.cnf
 CMD ["/start.sh"]
 

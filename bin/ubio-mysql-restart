@@ -1,0 +1,5 @@
+#!/bin/bash
+
+/usr/local/bin/ubio-mysql_stop
+/usr/local/bin/ubio-mysql_start
+

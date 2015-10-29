@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [[ $(/usr/bin/docker ps |grep ubio-mysql) ]]; then
+  /usr/bin/docker exec ubio-mysql /stop.sh
+fi
+sleep 1
+if [[ $(/usr/bin/docker ps |grep ubio-mysql) ]]; then
+  /usr/bin/docker stop ubio-mysql
+fi
+if [[ $(/usr/bin/docker ps -a |grep ubio-mysql) ]]; then
+  /usr/bin/docker rm ubio-mysql
+fi

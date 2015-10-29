@@ -1,0 +1,8 @@
+#!/bin/sh
+
+/usr/bin/docker run -d --name ubio-mysql \
+  --env-file /opt/ubio-mysql/ubio.env \
+  -p 3306:3306 \
+  -v /opt/ubio-mysql/mysql:/var/lib/mysql \
+  -v /opt/ubio-mysql/log:/var/logs/mysql \
+  mblab/ubio-mysql
