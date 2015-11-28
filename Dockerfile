@@ -20,6 +20,6 @@ EXPOSE 3306
 
 COPY files/start.sh /start.sh
 COPY files/stop.sh /stop.sh
+COPY files/create-ubio-db.sh /create-ubio-db.sh
 COPY files/my.cnf /etc/mysql/my.cnf
 CMD ["/start.sh"]
-
