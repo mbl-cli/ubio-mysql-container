@@ -3,7 +3,6 @@
 /usr/bin/docker run -d --name ubio-mysql \
     --env-file /ubio/config/production.env \
     -p 3306:3306 \
-    -v /ubio/var/lib/mysql:/var/lib/mysql \
-    -v /ubio/var/log/mysql:/var/log/mysql \
+    -v /opt/ubio/mysql:/var/lib/mysql \
     -v /ubio/config/my.cnf:/etc/mysql/my.cnf \
-  mblab/ubio-mysql:master
+  mblab/ubio-mysql
