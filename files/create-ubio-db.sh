@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BACKUP_DIR=/backup
+BACKUP_DIR=/opt/ubio/backup
 
 if [ "$(ls $BACKUP_DIR | grep gz)" ]; then
   echo "Creating uBio databases..."
