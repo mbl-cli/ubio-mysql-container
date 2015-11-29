@@ -17,7 +17,7 @@ sudo chown 301:301 -R log
 docker run -d \
   -v /opt/ubio/mysql:/var/lib/mysql \
   -v /opt/ubio/log:/var/log/mysql \
-  -v /opt/ubio/backup:/backup \
+  -v /opt/ubio/backup:/opt/ubio/backup \
   -p 3306:3306 \
   --name ubio-mysql mblab/ubio-mysql
 ```
