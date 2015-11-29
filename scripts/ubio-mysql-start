@@ -1,8 +1,8 @@
 #!/bin/bash
 
 /usr/bin/docker run -d --name ubio-mysql \
-    --env-file /ubio/config/production.env \
+    --env-file /opt/ubio/config/production.env \
     -p 3306:3306 \
     -v /opt/ubio/mysql:/var/lib/mysql \
-    -v /ubio/config/my.cnf:/etc/mysql/my.cnf \
+    -v /opt/ubio/config/my.cnf:/etc/mysql/my.cnf \
   mblab/ubio-mysql
