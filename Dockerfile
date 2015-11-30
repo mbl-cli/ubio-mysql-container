@@ -1,6 +1,6 @@
 FROM debian:squeeze
 MAINTAINER Dmitry Mozzherin
-ENV LAST_FULL_REBUILD 2015-03-05
+ENV LAST_FULL_REBUILD 2015-11-30
 
 RUN groupadd -f -g 301 -r mysql && \
     useradd -u 301 -g 301 -r -d "/nonexistent" -M -s "/bin/false" mysql && \
