@@ -6,6 +6,7 @@ Container for EOL MySQL databsases
 Install
 -------
 
+It assumes to run from an SSD drive mounted on /opt/ubio
 
 ```
 sudo mkdir -p /opt/ubio/backup
