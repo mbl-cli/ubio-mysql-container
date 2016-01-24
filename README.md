@@ -12,15 +12,17 @@ It assumes to run from an SSD drive mounted on /opt/ubio
 sudo mkdir -p /opt/ubio/backup
 sudo mkdir /opt/ubio/mysql
 sudo mkdir /opt/ubio/log
+sudo mkdir /opt/ubio/config
 cd /opt/ubio
 sudo chown 301:301 -R mysql
 sudo chown 301:301 -R log
-docker run -d \
-  -v /opt/ubio/mysql:/var/lib/mysql \
-  -v /opt/ubio/log:/var/log/mysql \
-  -v /opt/ubio/backup:/opt/ubio/backup \
-  -p 3306:3306 \
-  --name ubio-mysql mblab/ubio-mysql
+
+Copy start/restart/stop scripts from script directory to
+/usr/local/bin directory on the host
+
+copy my.cnf and production.env to /opt/ubio/conf
+
+run ubio-mysql-start script
 ```
 
 Create databases:
