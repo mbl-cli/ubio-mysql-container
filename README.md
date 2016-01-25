@@ -1,7 +1,7 @@
 MySQL Container
 ===============
 
-Container for EOL MySQL databsases
+Container for uBio MySQL databsases
 
 Install
 -------
